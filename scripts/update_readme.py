@@ -127,7 +127,7 @@ def get_stats():
         }}
         repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {{
           nodes {{
-            stargazersCount
+            stargazerCount
             languages(first: 5) {{
               edges {{
                 size
@@ -156,7 +156,7 @@ def get_stats():
     lang_stats = {}
 
     for repo in data["repositories"]["nodes"]:
-        total_stars += repo["stargazersCount"]
+        total_stars += repo["stargazerCount"]
         for lang in repo["languages"]["edges"]:
             name = lang["node"]["name"]
             size = lang["size"]
