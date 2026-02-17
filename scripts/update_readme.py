@@ -5,7 +5,7 @@ from datetime import datetime
 
 USERNAME = "ProGamingZ"
 TOKEN = os.getenv("GITHUB_TOKEN")
-HEADERS = {"Authorization": f"bearer {TOKEN}"}
+HEADERS = {"Authorization": f"Bearer {TOKEN}"}
 
 
 def run_query(query):
@@ -15,6 +15,9 @@ def run_query(query):
         headers=HEADERS
     )
     result = request.json()
+
+    print("DEBUG RESPONSE:")
+    print(result)
     # Check if the API returned an error list instead of data
     if "errors" in result:
         print(f"DEBUG - Full API Response: {result}")
