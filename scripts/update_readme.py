@@ -188,45 +188,42 @@ def get_stats():
 def update_readme(stats):
     print("Hello World - Attempting to update README...")
     
-    # We use border="0" and cellpadding to keep it clean and spaced out
+    # Structure matches the image: 
+    # Left side has 6 rows (Header + 5 stats)
+    # Right side has corresponding rows, with the last cell spanning down
     html_content = f"""
-<table border="0" cellpadding="10" cellspacing="0" width="100%">
-  <tr>
-    <td colspan="2" align="left">
-      <h2>My Github Statistics</h2>
-    </td>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
-    <td width="20%"><b>Total Contributions:</b></td>
-    <td width="5%">{stats['contribs']}</td>
-    <td width="20%"><b>Current Streak:</b></td>
-    <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
-  </tr>
-  <tr>
-    <td><b>Total Commits:</b></td>
-    <td>{stats['commits']}</td>
-    <td><b>Longest Streak:</b></td>
-    <td>{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
-  </tr>
-  <tr>
-    <td><b>Total Pull Requests:</b></td>
-    <td>{stats['prs']}</td>
-    <td><b>Spoken Languages:</b></td>
-    <td>English, Filipino</td>
-  </tr>
-  <tr>
-    <td><b>Total Issues:</b></td>
-    <td>{stats['issues']}</td>
-    <td valign="top"><b>Programming Languages:</b></td>
-    <td valign="top">{stats['langs']}</td>
-  </tr>
-  <tr>
-    <td><b>Total Stars:</b></td>
-    <td>{stats['stars']}</td>
-    <td></td>
-    <td></td>
-  </tr>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+    <tr>
+        <td colspan="2"><h2>My Github Statistics</h2></td>
+        <td>Current Streak:</td>
+        <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
+    </tr>
+    <tr>
+        <td>Total Contributions:</td>
+        <td>{stats['contribs']}</td>
+        <td>Longest Streak:</td>
+        <td>{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
+    </tr>
+    <tr>
+        <td>Total Commits:</td>
+        <td>{stats['commits']}</td>
+        <td>Spoken Languages:</td>
+        <td>English, Filipino</td>
+    </tr>
+    <tr>
+        <td>Total Pull Requests:</td>
+        <td>{stats['prs']}</td>
+        <td colspan="2">Programming Languages:</td>
+    </tr>
+    <tr>
+        <td>Total Issues:</td>
+        <td>{stats['issues']}</td>
+        <td colspan="2" rowspan="2">{stats['langs']}</td>
+    </tr>
+    <tr>
+        <td>Total Stars:</td>
+        <td>{stats['stars']}</td>
+    </tr>
 </table>
 """
 
