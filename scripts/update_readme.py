@@ -15,9 +15,15 @@ def run_query(query):
         headers=HEADERS
     )
     result = request.json()
+    # Check if the API returned an error list instead of data
     if "errors" in result:
-        # This will show you exactly what GitHub didn't like
-        raise Exception(f"GraphQL Error: {result['errors']}")
+        print(f"DEBUG - Full API Response: {result}")
+        raise Exception(f"GraphQL Error: {result['errors'][0]['message']}")
+    
+    # Check if 'data' exists before accessing it
+    if "data" not in result:
+         print(f"DEBUG - Unexpected Response: {result}")
+         raise KeyError("The key 'data' is missing from the API response.")
     return result
 
 
