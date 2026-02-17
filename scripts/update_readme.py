@@ -14,10 +14,11 @@ def run_query(query):
         json={"query": query},
         headers=HEADERS
     )
-    if request.status_code == 200:
-        return request.json()
-    else:
-        raise Exception(f"Query failed: {request.status_code} {request.text}")
+    result = request.json()
+    if "errors" in result:
+        # This will show you exactly what GitHub didn't like
+        raise Exception(f"GraphQL Error: {result['errors']}")
+    return result
 
 
 def calculate_streaks(days):
