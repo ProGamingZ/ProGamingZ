@@ -139,12 +139,17 @@ def update_readme(stats):
     with open("README.md", "r", encoding="utf-8") as file:
         readme = file.read()
 
-    # I put the pattern DIRECTLY here so you cannot delete it by accident
-    new_readme = re.sub(
-        r"[\s\S]*?", 
-        f"\n{html_content}\n", 
-        readme
+   # THE PATTERN: Encasing the symbols with your tags
+    pattern = r"[\s\S]*?"
+    
+    # THE REPLACEMENT: We put the tags back in so the script works next time!
+    replacement = (
+        "\n" + 
+        html_content + 
+        "\n"
     )
+
+    new_readme = re.sub(pattern, replacement, readme)
 
     with open("README.md", "w", encoding="utf-8") as file:
         file.write(new_readme)
