@@ -3,19 +3,19 @@
 
 <table width="100%">
     <tr>
-        <td colspan="2" width="33%"><h3>My Github Statistics</h3></td>
-        <td width="33%">Current Streak:</td>
-        <td width="33%">2 <span style="color:gray;font-size:12px">(2/16/26 - 2/17/26)</span></td>
+        <td colspan="2"><h3>My Github Statistics</h3></td>
+        <td>Current Streak:</td>
+        <td>2 <span style="color:gray;font-size:12px">(2/16/26 - 2/17/26)</span></td>
     </tr>
     <tr>
-        <td width="20%">Total Contributions:</td>
-        <td width="13%">89</td>
-        <td>Longest Streak:</td>
-        <td>2 <span style="color:gray;font-size:12px">(5/20/25 - 5/21/25)</span></td>
+        <td width="30%">Total Contributions:</td>
+        <td width="10%" align="center">90</td>
+        <td width="25%">Longest Streak:</td>
+        <td width="35%" align="center">2 <span style="color:gray;font-size:12px">(5/20/25 - 5/21/25)</span></td>
     </tr>
     <tr>
         <td>Total Commits:</td>
-        <td>78</td>
+        <td>79</td>
         <td>Spoken Languages:</td>
         <td>English, Filipino</td>
     </tr>
