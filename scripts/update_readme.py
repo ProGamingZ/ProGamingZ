@@ -203,7 +203,7 @@ Longest Streak: {stats['streak_long']} <span style="color:gray;font-size:12px">{
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(new_readme)
-
+    print("HELLO WORLD")
 
 if __name__ == "__main__":
     try:
