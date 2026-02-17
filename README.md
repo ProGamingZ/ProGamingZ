@@ -11,15 +11,15 @@
   <tbody>
     <tr>
       <td><strong>Total Contributions</strong></td>
-      <td>92</td>
+      <td>93</td>
       <td><strong>Current Streak</strong></td>
-      <td>2 <sub>(2/16/26 - 2/17/26)</sub></td>
+      <td>2 <span>(2/16/26 - 2/17/26)</span></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
-      <td>81</td>
+      <td>82</td>
       <td><strong>Longest Streak</strong></td>
-      <td>2 <sub>(5/20/25 - 5/21/25)</sub></td>
+      <td>2 <span>(5/20/25 - 5/21/25)</span></td>
     </tr>
     <tr>
       <td><strong>Total Pull Requests</strong></td>
