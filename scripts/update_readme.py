@@ -187,38 +187,43 @@ def get_stats():
 def update_readme(stats):
     print("Hello World - Attempting to update README...")   
     html_content = f"""
-<table width="100%">
+<table>
+  <thead>
     <tr>
-        <td colspan="2"><h3>My Github Statistics</h3></td>
-        <td>Current Streak:</td>
-        <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
+      <th colspan="2" align="center">🔥 GitHub Activity</th>
+      <th colspan="2" align="center">🏆 Streaks & Languages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Total Contributions</strong></td>
+      <td>{stats['contribs']}</td>
+      <td><strong>Current Streak</strong></td>
+      <td>{stats['streak_curr']} <br/><sub>{stats['streak_curr_dates']}</sub></td>
     </tr>
     <tr>
-        <td width="30%">Total Contributions:</td>
-        <td width="10%" align="center">{stats['contribs']}</td>
-        <td width="25%">Longest Streak:</td>
-        <td width="35%" align="center">{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
+      <td><strong>Total Commits</strong></td>
+      <td>{stats['commits']}</td>
+      <td><strong>Longest Streak</strong></td>
+      <td>{stats['streak_long']} <br/><sub>{stats['streak_long_dates']}</sub></td>
     </tr>
     <tr>
-        <td>Total Commits:</td>
-        <td>{stats['commits']}</td>
-        <td>Spoken Languages:</td>
-        <td>English, Filipino</td>
+      <td><strong>Total Pull Requests</strong></td>
+      <td>{stats['prs']}</td>
+      <td><strong>Spoken Languages</strong></td>
+      <td>English, Filipino</td>
     </tr>
     <tr>
-        <td>Total Pull Requests:</td>
-        <td>{stats['prs']}</td>
-        <td colspan="2">Programming Languages:</td>
+      <td><strong>Total Issues</strong></td>
+      <td>{stats['issues']}</td>
+      <td rowspan="2" valign="top"><strong>Programming Languages</strong></td>
+      <td rowspan="2" valign="top">{stats['langs']}</td>
     </tr>
     <tr>
-        <td>Total Issues:</td>
-        <td>{stats['issues']}</td>
-        <td colspan="2" rowspan="2">{stats['langs']}</td>
+      <td><strong>Total Stars</strong></td>
+      <td>{stats['stars']}</td>
     </tr>
-    <tr>
-        <td>Total Stars:</td>
-        <td>{stats['stars']}</td>
-    </tr>
+  </tbody>
 </table>
 """
 
