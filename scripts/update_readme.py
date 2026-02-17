@@ -199,13 +199,13 @@ def update_readme(stats):
       <td><strong>Total Contributions</strong></td>
       <td>{stats['contribs']}</td>
       <td><strong>Current Streak</strong></td>
-      <td>{stats['streak_curr']} <sub>{stats['streak_curr_dates']}</sub></td>
+      <td>{stats['streak_curr']} <span>{stats['streak_curr_dates']}</span></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
       <td>{stats['commits']}</td>
       <td><strong>Longest Streak</strong></td>
-      <td>{stats['streak_long']} <sub>{stats['streak_long_dates']}</sub></td>
+      <td>{stats['streak_long']} <span>{stats['streak_long_dates']}</span></td>
     </tr>
     <tr>
       <td><strong>Total Pull Requests</strong></td>
