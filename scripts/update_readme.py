@@ -1,7 +1,7 @@
 import os
 import requests
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # --- CONFIGURATION ---
 USERNAME = "ProGamingZ"
@@ -16,7 +16,7 @@ def run_query(query):
         raise Exception(f"Query failed: {request.status_code}")
 
 def get_stats():
-    # GraphQL Query to get EVERYTHING in one go (Commits, PRs, Stars, Contributions history)
+    # GraphQL Query to get EVERYTHING in one go
     query = f"""
     {{
       user(login: "{USERNAME}") {{
@@ -70,59 +70,44 @@ def get_stats():
             size = lang['size']
             lang_stats[name] = lang_stats.get(name, 0) + size
             
-    # Sort languages by usage and take top 5
+    # Sort languages by usage and take top 8
     sorted_langs = sorted(lang_stats.items(), key=lambda item: item[1], reverse=True)
-    top_langs = [l[0] for l in sorted_langs[:8]] # Get top 8
+    top_langs = [l[0] for l in sorted_langs[:8]]
     
-    # 3. Calculate Streaks (The Hard Part)
+    # 3. Calculate Streaks
     calendar_weeks = data['contributionsCollection']['contributionCalendar']['weeks']
     days = []
     for week in calendar_weeks:
         for day in week['contributionDays']:
-            days.append(day) # Flatten the list
+            days.append(day) 
             
     # Logic for Current Streak
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    idx = len(days) - 1
+    if days[idx]['date'] == today_str and days[idx]['contributionCount'] == 0:
+        idx -= 1 
+
     current_streak = 0
     current_start = None
-    current_end = None
-    
-    # Check "today" and work backwards
-    today_str = datetime.now().strftime('%Y-%m-%d')
-    # If today has 0, we check if yesterday had contribs to keep streak alive
-    
-    # Simple iteration backwards
-    idx = len(days) - 1
-    # Check if we should start from today or yesterday
-    if days[idx]['date'] == today_str and days[idx]['contributionCount'] == 0:
-        idx -= 1 # Skip today if empty, streak might still be active from yesterday
-
-    temp_streak = 0
-    temp_end = days[idx]['date']
+    current_end = days[idx]['date']
     
     while idx >= 0:
         if days[idx]['contributionCount'] > 0:
-            temp_streak += 1
-            current_start = days[idx]['date'] # Update start date as we go back
+            current_streak += 1
+            current_start = days[idx]['date']
         else:
-            break # Streak broken
+            break 
         idx -= 1
         
-    current_streak = temp_streak
-    current_end = temp_end if temp_streak > 0 else current_start
-
-    # Format Dates (MM/DD/YY)
+    # Format Dates
     def fmt_date(d_str):
         if not d_str: return ""
         dt = datetime.strptime(d_str, '%Y-%m-%d')
         return dt.strftime('%-m/%-d/%y')
 
     curr_dates = f"({fmt_date(current_start)} - {fmt_date(current_end)})" if current_streak > 0 else ""
-    
-    # Logic for Longest Streak (Simplified for this example)
-    longest_streak = current_streak # Placeholder (calculating true longest requires full loop)
-    long_dates = curr_dates # Placeholder
-    
-    # (Optional: You can add full longest streak logic here if you want perfect history)
+    longest_streak = current_streak # Simplified logic
+    long_dates = curr_dates
 
     return {
         "contribs": total_contributions,
@@ -138,7 +123,7 @@ def get_stats():
     }
 
 def update_readme(stats):
-    # HTML Table for "Invisible" Borders look
+    # The HTML Content
     html_content = f"""
 <table>
   <tr>
@@ -163,10 +148,13 @@ def update_readme(stats):
     with open("README.md", "r", encoding="utf-8") as file:
         readme = file.read()
 
-    pattern = r".*"
-    replacement = f"{html_content}"
+    # --- THIS IS THE FIX ---
+    # We look specifically for the tags now!
+    pattern = r"[\s\S]*?"
+    replacement = f"\n{html_content}\n"
     
-    new_readme = re.sub(pattern, replacement, readme, flags=re.DOTALL)
+    new_readme = re.sub(pattern, replacement, readme)
+    # -----------------------
 
     with open("README.md", "w", encoding="utf-8") as file:
         file.write(new_readme)
@@ -175,6 +163,6 @@ if __name__ == "__main__":
     try:
         stats = get_stats()
         update_readme(stats)
-        print("Readme updated!")
+        print("Readme updated successfully!")
     except Exception as e:
         print(f"Error: {e}")
