@@ -187,28 +187,46 @@ def get_stats():
 
 def update_readme(stats):
     print("Hello World - Attempting to update README...")
+    
+    # We use border="0" and cellpadding to keep it clean and spaced out
     html_content = f"""
-<table>
-<tr>
-<td valign="top" width="50%">
-
-<b>My Github Statistics</b><br><br>
-Total Contributions: {stats['contribs']}<br>
-Total Commits: {stats['commits']}<br>
-Total Pull Requests: {stats['prs']}<br>
-Total Issues: {stats['issues']}<br>
-Total Stars: {stats['stars']}<br>
-Current Streak: {stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span><br>
-Longest Streak: {stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span>
-
-</td>
-<td valign="top" width="50%">
-
-<b>Programming Languages Used:</b><br><br>
-{stats['langs']}
-
-</td>
-</tr>
+<table border="0" cellpadding="10" cellspacing="0" width="100%">
+  <tr>
+    <td colspan="2" align="left">
+      <h2>My Github Statistics</h2>
+    </td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td width="20%"><b>Total Contributions:</b></td>
+    <td width="5%">{stats['contribs']}</td>
+    <td width="20%"><b>Current Streak:</b></td>
+    <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
+  </tr>
+  <tr>
+    <td><b>Total Commits:</b></td>
+    <td>{stats['commits']}</td>
+    <td><b>Longest Streak:</b></td>
+    <td>{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
+  </tr>
+  <tr>
+    <td><b>Total Pull Requests:</b></td>
+    <td>{stats['prs']}</td>
+    <td><b>Spoken Languages:</b></td>
+    <td>English, Filipino</td>
+  </tr>
+  <tr>
+    <td><b>Total Issues:</b></td>
+    <td>{stats['issues']}</td>
+    <td valign="top"><b>Programming Languages:</b></td>
+    <td valign="top">{stats['langs']}</td>
+  </tr>
+  <tr>
+    <td><b>Total Stars:</b></td>
+    <td>{stats['stars']}</td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
 """
 
