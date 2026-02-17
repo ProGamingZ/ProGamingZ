@@ -190,8 +190,8 @@ def update_readme(stats):
 <table>
   <thead>
     <tr>
-      <th colspan="2" align="center">🔥 GitHub Activity</th>
-      <th colspan="2" align="center">🏆 Streaks & Languages</th>
+      <th colspan="2" align="center"> GitHub Activity</th>
+      <th colspan="2" align="center"> Streaks & Languages</th>
     </tr>
   </thead>
   <tbody>
@@ -199,13 +199,13 @@ def update_readme(stats):
       <td><strong>Total Contributions</strong></td>
       <td>{stats['contribs']}</td>
       <td><strong>Current Streak</strong></td>
-      <td>{stats['streak_curr']} <br/><sub>{stats['streak_curr_dates']}</sub></td>
+      <td>{stats['streak_curr']} <sub>{stats['streak_curr_dates']}</sub></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
       <td>{stats['commits']}</td>
       <td><strong>Longest Streak</strong></td>
-      <td>{stats['streak_long']} <br/><sub>{stats['streak_long_dates']}</sub></td>
+      <td>{stats['streak_long']} <sub>{stats['streak_long_dates']}</sub></td>
     </tr>
     <tr>
       <td><strong>Total Pull Requests</strong></td>
