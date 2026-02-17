@@ -1,7 +1,9 @@
 ## Hello There 😄
 
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=ProGamingZ&label=Profile%20Views&color=0e75b6&style=flat" alt="Profile Views" />
+  <a href="https://hits.sh/github.com/ProGamingZ/ProGamingZ/">
+    <img alt="Hits" src="https://hits.sh/github.com/ProGamingZ/ProGamingZ.svg?label=Views&color=79C83D"/>
+  </a>
 </div>
 
 <div align="center">
