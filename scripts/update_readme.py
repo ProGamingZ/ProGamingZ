@@ -148,9 +148,6 @@ def update_readme(stats):
     with open("README.md", "r", encoding="utf-8") as file:
         readme = file.read()
 
-    # --- THIS IS THE FIX ---
-    # We look specifically for the tags now!
-    pattern = r"[\s\S]*?"
     replacement = f"\n{html_content}\n"
     
     new_readme = re.sub(pattern, replacement, readme)
