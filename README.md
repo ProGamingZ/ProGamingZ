@@ -8,7 +8,6 @@
 
 <br>
 
-![Streak Stats](https://github-readme-streak-stats.herokuapp.com/?user=ProGamingZ&theme=tokyonight)
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=ProGamingZ&theme=dark&hide_border=true&border_radius=20&date_format=M%20j%5B%2C%20Y%5D&card_width=490&card_height=170)](https://git.io/streak-stats)
 
 </div>
