@@ -2,6 +2,7 @@ import os
 import requests
 import re
 from datetime import datetime
+print(f"DEBUG: Script started. Token length: {len(os.getenv('GITHUB_TOKEN', ''))}")
 
 USERNAME = "ProGamingZ"
 TOKEN = os.getenv("GITHUB_TOKEN")
