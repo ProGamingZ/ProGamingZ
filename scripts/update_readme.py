@@ -18,15 +18,14 @@ def run_query(query):
 
     print("DEBUG RESPONSE:")
     print(result)
-    # Check if the API returned an error list instead of data
     if "errors" in result:
-        print(f"DEBUG - Full API Response: {result}")
+        # This will tell you if it's a Permission or Syntax error
+        print(f"GraphQL Errors: {result['errors']}")
         raise Exception(f"GraphQL Error: {result['errors'][0]['message']}")
     
-    # Check if 'data' exists before accessing it
-    if "data" not in result:
-         print(f"DEBUG - Unexpected Response: {result}")
-         raise KeyError("The key 'data' is missing from the API response.")
+    if "data" not in result or result["data"] is None:
+         print(f"Unexpected Response Structure: {result}")
+         raise KeyError("The key 'data' is missing or null in the API response.")
     return result
 
 
