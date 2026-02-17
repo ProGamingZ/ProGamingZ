@@ -14,18 +14,25 @@ def run_query(query):
         json={"query": query},
         headers=HEADERS
     )
+    
+    # Check for HTTP errors (like 401 or 404)
+    if request.status_code != 200:
+        print(f"HTTP Error {request.status_code}: {request.text}")
+        raise Exception(f"GitHub API returned status code {request.status_code}")
+
     result = request.json()
 
-    print("DEBUG RESPONSE:")
-    print(result)
+    # Check for GraphQL-specific errors
     if "errors" in result:
-        # This will tell you if it's a Permission or Syntax error
-        print(f"GraphQL Errors: {result['errors']}")
-        raise Exception(f"GraphQL Error: {result['errors'][0]['message']}")
+        print("GraphQL Errors found:")
+        for error in result["errors"]:
+            print(f"-- {error.get('message')}")
+        raise Exception("GraphQL query failed.")
     
-    if "data" not in result or result["data"] is None:
-         print(f"Unexpected Response Structure: {result}")
-         raise KeyError("The key 'data' is missing or null in the API response.")
+    if "data" not in result or not result["data"]:
+         print(f"Unexpected response body: {result}")
+         raise KeyError("The 'data' field is missing from the response.")
+         
     return result
 
 
