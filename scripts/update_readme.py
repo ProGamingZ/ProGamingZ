@@ -7,12 +7,87 @@ USERNAME = "ProGamingZ"
 TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {"Authorization": f"bearer {TOKEN}"}
 
+
 def run_query(query):
-    request = requests.post('https://api.github.com/graphql', json={'query': query}, headers=HEADERS)
+    request = requests.post(
+        "https://api.github.com/graphql",
+        json={"query": query},
+        headers=HEADERS
+    )
     if request.status_code == 200:
         return request.json()
     else:
-        raise Exception(f"Query failed: {request.status_code}")
+        raise Exception(f"Query failed: {request.status_code} {request.text}")
+
+
+def calculate_streaks(days):
+    """Calculate current and longest streak from contribution days."""
+    
+    # Remove today if zero contributions
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    if days and days[-1]['date'] == today_str and days[-1]['contributionCount'] == 0:
+        days = days[:-1]
+
+    # Current streak
+    current_streak = 0
+    current_start = None
+    current_end = None
+
+    for day in reversed(days):
+        if day['contributionCount'] > 0:
+            current_streak += 1
+            current_start = day['date']
+            if current_end is None:
+                current_end = day['date']
+        else:
+            break
+
+    # Longest streak
+    longest_streak = 0
+    longest_start = None
+    longest_end = None
+
+    temp_streak = 0
+    temp_start = None
+
+    for day in days:
+        if day['contributionCount'] > 0:
+            temp_streak += 1
+            if temp_start is None:
+                temp_start = day['date']
+        else:
+            if temp_streak > longest_streak:
+                longest_streak = temp_streak
+                longest_start = temp_start
+                longest_end = prev_day
+            temp_streak = 0
+            temp_start = None
+        prev_day = day['date']
+
+    # Check last streak in case it ends on last day
+    if temp_streak > longest_streak:
+        longest_streak = temp_streak
+        longest_start = temp_start
+        longest_end = days[-1]['date']
+
+    def fmt_date(d_str):
+        if not d_str:
+            return ""
+        dt = datetime.strptime(d_str, "%Y-%m-%d")
+        return dt.strftime("%-m/%-d/%y")
+
+    current_dates = (
+        f"({fmt_date(current_start)} - {fmt_date(current_end)})"
+        if current_streak > 0 else ""
+    )
+
+    longest_dates = (
+        f"({fmt_date(longest_start)} - {fmt_date(longest_end)})"
+        if longest_streak > 0 else ""
+    )
+
+    return current_streak, current_dates, longest_streak, longest_dates
+
 
 def get_stats():
     query = f"""
@@ -48,58 +123,35 @@ def get_stats():
       }}
     }}
     """
+
     result = run_query(query)
-    data = result['data']['user']
-    
-    total_commits = data['contributionsCollection']['totalCommitContributions']
-    total_prs = data['contributionsCollection']['totalPullRequestContributions']
-    total_issues = data['contributionsCollection']['totalIssueContributions']
-    total_contributions = data['contributionsCollection']['contributionCalendar']['totalContributions']
-    
+    data = result["data"]["user"]
+
+    contrib_data = data["contributionsCollection"]
+    total_commits = contrib_data["totalCommitContributions"]
+    total_prs = contrib_data["totalPullRequestContributions"]
+    total_issues = contrib_data["totalIssueContributions"]
+    total_contributions = contrib_data["contributionCalendar"]["totalContributions"]
+
+    # Stars and languages
     total_stars = 0
     lang_stats = {}
-    
-    for repo in data['repositories']['nodes']:
-        total_stars += repo['stargazersCount']
-        for lang in repo['languages']['edges']:
-            name = lang['node']['name']
-            size = lang['size']
+
+    for repo in data["repositories"]["nodes"]:
+        total_stars += repo["stargazersCount"]
+        for lang in repo["languages"]["edges"]:
+            name = lang["node"]["name"]
+            size = lang["size"]
             lang_stats[name] = lang_stats.get(name, 0) + size
-            
-    sorted_langs = sorted(lang_stats.items(), key=lambda item: item[1], reverse=True)
+
+    sorted_langs = sorted(lang_stats.items(), key=lambda x: x[1], reverse=True)
     top_langs = [l[0] for l in sorted_langs[:8]]
-    
-    calendar_weeks = data['contributionsCollection']['contributionCalendar']['weeks']
-    days = []
-    for week in calendar_weeks:
-        for day in week['contributionDays']:
-            days.append(day) 
-            
-    today_str = datetime.now().strftime('%Y-%m-%d')
-    idx = len(days) - 1
-    if days[idx]['date'] == today_str and days[idx]['contributionCount'] == 0:
-        idx -= 1 
 
-    current_streak = 0
-    current_start = None
-    current_end = days[idx]['date']
-    
-    while idx >= 0:
-        if days[idx]['contributionCount'] > 0:
-            current_streak += 1
-            current_start = days[idx]['date']
-        else:
-            break 
-        idx -= 1
-        
-    def fmt_date(d_str):
-        if not d_str: return ""
-        dt = datetime.strptime(d_str, '%Y-%m-%d')
-        return dt.strftime('%-m/%-d/%y')
+    # Flatten days
+    calendar_weeks = contrib_data["contributionCalendar"]["weeks"]
+    days = [d for w in calendar_weeks for d in w["contributionDays"]]
 
-    curr_dates = f"({fmt_date(current_start)} - {fmt_date(current_end)})" if current_streak > 0 else ""
-    longest_streak = current_streak 
-    long_dates = curr_dates
+    current_streak, current_dates, longest_streak, longest_dates = calculate_streaks(days)
 
     return {
         "contribs": total_contributions,
@@ -108,56 +160,55 @@ def get_stats():
         "issues": total_issues,
         "stars": total_stars,
         "streak_curr": current_streak,
-        "streak_curr_dates": curr_dates,
-        "streak_long": longest_streak, 
-        "streak_long_dates": long_dates,
+        "streak_curr_dates": current_dates,
+        "streak_long": longest_streak,
+        "streak_long_dates": longest_dates,
         "langs": ", ".join(top_langs)
     }
+
 
 def update_readme(stats):
     html_content = f"""
 <table>
-  <tr>
-    <td valign="top" width="50%">
-      <b>My Github Statistics</b><br><br>
-      Total Contributions &nbsp; {stats['contribs']}<br>
-      Total Commits &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {stats['commits']}<br>
-      Total Pull Requests &nbsp; {stats['prs']}<br>
-      Total Issues &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {stats['issues']}<br>
-      Total Stars &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {stats['stars']}<br>
-      Current Streak &nbsp; &nbsp; &nbsp; &nbsp; {stats['streak_curr']} &nbsp; <span style="color:gray; font-size:12px">{stats['streak_curr_dates']}</span><br>
-      Longest Streak &nbsp; &nbsp; &nbsp; &nbsp; {stats['streak_long']} &nbsp; <span style="color:gray; font-size:12px">{stats['streak_long_dates']}</span>
-    </td>
-    <td valign="top" width="50%">
-      <b>Programming Languages Used:</b><br><br>
-      {stats['langs']}
-    </td>
-  </tr>
+<tr>
+<td valign="top" width="50%">
+
+<b>My Github Statistics</b><br><br>
+Total Contributions: {stats['contribs']}<br>
+Total Commits: {stats['commits']}<br>
+Total Pull Requests: {stats['prs']}<br>
+Total Issues: {stats['issues']}<br>
+Total Stars: {stats['stars']}<br>
+Current Streak: {stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span><br>
+Longest Streak: {stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span>
+
+</td>
+<td valign="top" width="50%">
+
+<b>Programming Languages Used:</b><br><br>
+{stats['langs']}
+
+</td>
+</tr>
 </table>
 """
-    
-    with open("README.md", "r", encoding="utf-8") as file:
-        readme = file.read()
 
-   # THE PATTERN: Encasing the symbols with your tags
-    pattern = r"[\s\S]*?"
-    
-    # THE REPLACEMENT: We put the tags back in so the script works next time!
-    replacement = (
-        "\n" + 
-        html_content + 
-        "\n"
-    )
+    with open("README.md", "r", encoding="utf-8") as f:
+        readme = f.read()
+
+    pattern = r"(<!-- STATS:START -->)([\s\S]*?)(<!-- STATS:END -->)"
+    replacement = r"\1\n" + html_content + r"\n\3"
 
     new_readme = re.sub(pattern, replacement, readme)
 
-    with open("README.md", "w", encoding="utf-8") as file:
-        file.write(new_readme)
+    with open("README.md", "w", encoding="utf-8") as f:
+        f.write(new_readme)
+
 
 if __name__ == "__main__":
     try:
         stats = get_stats()
         update_readme(stats)
-        print("Readme updated successfully!")
+        print("README updated successfully!")
     except Exception as e:
         print(f"Error: {e}")
