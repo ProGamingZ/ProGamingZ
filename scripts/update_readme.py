@@ -90,6 +90,7 @@ def calculate_streaks(days):
 
 
 def get_stats():
+    print("Hello World - Fetching GitHub Stats...")
     query = f"""
     {{
       user(login: "{USERNAME}") {{
@@ -168,6 +169,7 @@ def get_stats():
 
 
 def update_readme(stats):
+    print("Hello World - Attempting to update README...")
     html_content = f"""
 <table>
 <tr>
