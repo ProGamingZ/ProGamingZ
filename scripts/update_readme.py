@@ -187,20 +187,16 @@ def get_stats():
 
 def update_readme(stats):
     print("Hello World - Attempting to update README...")
-    
-    # Structure matches the image: 
-    # Left side has 6 rows (Header + 5 stats)
-    # Right side has corresponding rows, with the last cell spanning down
     html_content = f"""
-<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<table width="100%">
     <tr>
-        <td colspan="2"><h2>My Github Statistics</h2></td>
-        <td>Current Streak:</td>
-        <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
+        <td colspan="2" width="33%"><h3>My Github Statistics</h3></td>
+        <td width="33%">Current Streak:</td>
+        <td width="33%">{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
     </tr>
     <tr>
-        <td>Total Contributions:</td>
-        <td>{stats['contribs']}</td>
+        <td width="20%">Total Contributions:</td>
+        <td width="13%">{stats['contribs']}</td>
         <td>Longest Streak:</td>
         <td>{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
     </tr>
