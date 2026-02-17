@@ -1,7 +1,5 @@
 ## Hello There 😄
 
-[![Hits](https://hits.sh/github.com/ProGamingZ/ProGamingZ.svg?style=for-the-badge&label=Profile%20Views&color=555555)](https://hits.sh/github.com/ProGamingZ/ProGamingZ/)
-
 <div align="center">
 <img src="https://github-readme-stats-eight-theta.vercel.app/api?username=ProGamingZ&show_icons=true&theme=tokyonight&hide_border=true&cache_seconds=0" height="150" /> | 
 <img src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=ProGamingZ&layout=compact&theme=tokyonight&hide_border=true&cache_seconds=0" height="150" /> |
