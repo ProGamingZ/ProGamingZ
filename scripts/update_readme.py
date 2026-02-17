@@ -206,6 +206,7 @@ Longest Streak: {stats['streak_long']} <span style="color:gray;font-size:12px">{
     print("HELLO WORLD")
 
 if __name__ == "__main__":
+print("Hello World - Script Started!")
     try:
         stats = get_stats()
         update_readme(stats)
