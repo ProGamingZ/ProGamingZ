@@ -184,21 +184,20 @@ def get_stats():
         "langs": ", ".join(top_langs)
     }
 
-
 def update_readme(stats):
-    print("Hello World - Attempting to update README...")
+    print("Hello World - Attempting to update README...")   
     html_content = f"""
 <table width="100%">
     <tr>
-        <td colspan="2" width="33%"><h3>My Github Statistics</h3></td>
-        <td width="33%">Current Streak:</td>
-        <td width="33%">{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
+        <td colspan="2"><h3>My Github Statistics</h3></td>
+        <td>Current Streak:</td>
+        <td>{stats['streak_curr']} <span style="color:gray;font-size:12px">{stats['streak_curr_dates']}</span></td>
     </tr>
     <tr>
-        <td width="20%">Total Contributions:</td>
-        <td width="13%">{stats['contribs']}</td>
-        <td>Longest Streak:</td>
-        <td>{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
+        <td width="30%">Total Contributions:</td>
+        <td width="10%" align="center">{stats['contribs']}</td>
+        <td width="25%">Longest Streak:</td>
+        <td width="35%" align="center">{stats['streak_long']} <span style="color:gray;font-size:12px">{stats['streak_long_dates']}</span></td>
     </tr>
     <tr>
         <td>Total Commits:</td>
@@ -222,6 +221,7 @@ def update_readme(stats):
     </tr>
 </table>
 """
+
 
     with open("README.md", "r", encoding="utf-8") as f:
         readme = f.read()
