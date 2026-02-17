@@ -3,7 +3,6 @@ import requests
 import re
 from datetime import datetime
 
-# --- CONFIGURATION ---
 USERNAME = "ProGamingZ"
 TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {"Authorization": f"bearer {TOKEN}"}
@@ -16,7 +15,6 @@ def run_query(query):
         raise Exception(f"Query failed: {request.status_code}")
 
 def get_stats():
-    # GraphQL Query to get EVERYTHING in one go
     query = f"""
     {{
       user(login: "{USERNAME}") {{
@@ -53,13 +51,11 @@ def get_stats():
     result = run_query(query)
     data = result['data']['user']
     
-    # 1. Basic Stats
     total_commits = data['contributionsCollection']['totalCommitContributions']
     total_prs = data['contributionsCollection']['totalPullRequestContributions']
     total_issues = data['contributionsCollection']['totalIssueContributions']
     total_contributions = data['contributionsCollection']['contributionCalendar']['totalContributions']
     
-    # 2. Calculate Stars & Languages
     total_stars = 0
     lang_stats = {}
     
@@ -70,18 +66,15 @@ def get_stats():
             size = lang['size']
             lang_stats[name] = lang_stats.get(name, 0) + size
             
-    # Sort languages by usage and take top 8
     sorted_langs = sorted(lang_stats.items(), key=lambda item: item[1], reverse=True)
     top_langs = [l[0] for l in sorted_langs[:8]]
     
-    # 3. Calculate Streaks
     calendar_weeks = data['contributionsCollection']['contributionCalendar']['weeks']
     days = []
     for week in calendar_weeks:
         for day in week['contributionDays']:
             days.append(day) 
             
-    # Logic for Current Streak
     today_str = datetime.now().strftime('%Y-%m-%d')
     idx = len(days) - 1
     if days[idx]['date'] == today_str and days[idx]['contributionCount'] == 0:
@@ -99,14 +92,13 @@ def get_stats():
             break 
         idx -= 1
         
-    # Format Dates
     def fmt_date(d_str):
         if not d_str: return ""
         dt = datetime.strptime(d_str, '%Y-%m-%d')
         return dt.strftime('%-m/%-d/%y')
 
     curr_dates = f"({fmt_date(current_start)} - {fmt_date(current_end)})" if current_streak > 0 else ""
-    longest_streak = current_streak # Simplified logic
+    longest_streak = current_streak 
     long_dates = curr_dates
 
     return {
@@ -123,7 +115,6 @@ def get_stats():
     }
 
 def update_readme(stats):
-    # The HTML Content
     html_content = f"""
 <table>
   <tr>
@@ -148,10 +139,12 @@ def update_readme(stats):
     with open("README.md", "r", encoding="utf-8") as file:
         readme = file.read()
 
-    replacement = f"\n{html_content}\n"
-    
-    new_readme = re.sub(pattern, replacement, readme)
-    # -----------------------
+    # I put the pattern DIRECTLY here so you cannot delete it by accident
+    new_readme = re.sub(
+        r"[\s\S]*?", 
+        f"\n{html_content}\n", 
+        readme
+    )
 
     with open("README.md", "w", encoding="utf-8") as file:
         file.write(new_readme)
