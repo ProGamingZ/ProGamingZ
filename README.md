@@ -11,19 +11,19 @@
   <tbody>
     <tr>
       <td><strong>Total Contributions</strong></td>
-      <td>95</td>
+      <td>122</td>
       <td><strong>Current Streak</strong></td>
       <td>3 <span>(2/16/26 - 2/18/26)</span></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
-      <td>83</td>
+      <td>104</td>
       <td><strong>Longest Streak</strong></td>
       <td>3 <span>(2/16/26 - 2/18/26)</span></td>
     </tr>
     <tr>
       <td><strong>Total Pull Requests</strong></td>
-      <td>3</td>
+      <td>8</td>
       <td><strong>Spoken Languages</strong></td>
       <td>English, Filipino</td>
     </tr>
