@@ -5,6 +5,10 @@ on:
     - cron: "0 0 * * *" # Runs every midnight
   workflow_dispatch:
 
+# THIS IS THE MISSING PIECE
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
