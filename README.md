@@ -13,7 +13,7 @@
       <td><strong>Total Contributions</strong></td>
       <td>373</td>
       <td><strong>Current Streak</strong></td>
-      <td>1 <span>(7/4/26 - 7/4/26)</span></td>
+      <td>0 <span></span></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
