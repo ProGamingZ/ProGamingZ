@@ -11,13 +11,13 @@
   <tbody>
     <tr>
       <td><strong>Total Contributions</strong></td>
-      <td>378</td>
+      <td>383</td>
       <td><strong>Current Streak</strong></td>
-      <td>2 <span>(7/7/26 - 7/8/26)</span></td>
+      <td>3 <span>(7/7/26 - 7/9/26)</span></td>
     </tr>
     <tr>
       <td><strong>Total Commits</strong></td>
-      <td>337</td>
+      <td>342</td>
       <td><strong>Longest Streak</strong></td>
       <td>13 <span>(4/29/26 - 5/11/26)</span></td>
     </tr>
@@ -31,7 +31,7 @@
       <td><strong>Total Issues</strong></td>
       <td>1</td>
       <td rowspan="2" valign="top"><strong>Programming Languages</strong></td>
-      <td rowspan="2" valign="top">TypeScript, C#, PHP, JavaScript, CSS, Python, Hack, HTML</td>
+      <td rowspan="2" valign="top">C#, TypeScript, PHP, JavaScript, CSS, Python, Hack, HTML</td>
     </tr>
     <tr>
       <td><strong>Total Stars</strong></td>
