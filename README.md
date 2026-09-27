@@ -31,7 +31,7 @@
       <td><strong>Total Issues</strong></td>
       <td>1</td>
       <td rowspan="2" valign="top"><strong>Programming Languages</strong></td>
-      <td rowspan="2" valign="top">C#, TypeScript, PHP, JavaScript, CSS, Python, Hack, HTML</td>
+      <td rowspan="2" valign="top">C#, TypeScript, PHP, JavaScript, CSS, Python, HTML</td>
     </tr>
     <tr>
       <td><strong>Total Stars</strong></td>
